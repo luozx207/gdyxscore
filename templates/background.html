@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>后台</h1>
+  <div class=score>所有用户：</div>
+  <table border='1' cellspacing="0" cellpadding="5">
+    <tr>
+      <td>注册时间</td>
+      <td>姓名</td>
+      <td>电话号码</td>
+      <td>实际积分</td>
+      <td>推荐积分</td>
+    </tr>
+    {% for u in users %}
+    <tr>
+      <td>{{ u[0] }}</td>
+      <td>{{ u[1] }}</td>
+      <td>{{ u[2] }}</td>
+      <td>{{ u[3] }}</td>
+      <td>{{ u[4] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

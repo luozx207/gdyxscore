@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>积分详情</h1>
+  <div class=score>实际积分：{{ real_score }}</div>
+  <div class=score>推荐积分：{{ virtual_score }}</div>
+  {% if virtual_score and virtual_score!=0 %}
+  <div>———————————————————————</div>
+  <div class=score>推荐详情：</div>
+  <table border='1' cellspacing="0" cellpadding="5">
+    <tr>
+      <td>推荐时间</td>
+      <td>被推荐人姓名</td>
+      <td>被推荐人电话号码</td>
+      <td>被推荐人邮箱</td>
+      <td>状态</td>
+    </tr>
+    {% for r in res %}
+    <tr>
+      <td>{{ r[0] }}</td>
+      <td>{{ r[1] }}</td>
+      <td>{{ r[2] }}</td>
+      <td>{{ r[3] }}</td>
+      <td>{{ r[4] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+{% endblock %}

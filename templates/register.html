@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>注册</h1>
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <form action="{{ url_for('register') }}" method=post accept-charset="UTF-8">
+    <dl>
+      <dt>用户名*:
+      <dd><input type=text name=username required>
+      <dt>密码*:
+      <dd><input type=password name=password required>
+      <dt>姓名*:
+      <dd><input type=text name=name required>
+      <dt>电话*:
+      <dd><input type=text name=telephone required>
+      <dt>QQ:
+      <dd><input type=text name=QQ>
+      <dt>邮箱:
+      <dd><input type=text name=email>
+      <dd><input type=submit value=注册>
+    </dl>
+  </form>
+{% endblock %}
