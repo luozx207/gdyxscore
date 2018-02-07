@@ -31,6 +31,25 @@ def register_server(**data):
    conn.close()
    return "注册成功"
 
+def pre_server(**data):
+   conn = sqlite3.connect('test.sqlite')
+   cursor = conn.cursor()
+   reg= re.compile(r'^1[34578][0-9]{9}$')
+   if not reg.match(data['telephone'][0]):
+       return "请填写正确的手机号码"
+   try:
+       cursor.execute('insert into pre (name,telephone,createtime,\
+                      QQ,email)values(?,?,?,?,?)',\
+                      (data['name'][0],data['telephone'][0],\
+                       datetime.date.today(),data['QQ'][0],\
+                       data['email'][0]))
+   except sqlite3.IntegrityError:
+       conn.close()
+       return "手机号码重复"
+   conn.commit()
+   conn.close()
+   return "预报名成功"
+
 def score_server(user_id):
     conn = sqlite3.connect('test.sqlite')
     cursor = conn.cursor()
@@ -42,7 +61,7 @@ def score_server(user_id):
 def score_detail(user_id):
     conn = sqlite3.connect('test.sqlite')
     cursor = conn.cursor()
-    cursor.execute('select createtime,name,telephone,email,status\
+    cursor.execute('select createtime,name,telephone,status,id\
                    from re where user_id=?',(user_id,))
     data=cursor.fetchall()
     conn.close()
@@ -77,11 +96,59 @@ def auth_server(user_id):
     conn.close()
     return data[0]
 
-def back_view():
+def all_user_s():
     conn = sqlite3.connect('test.sqlite')
     cursor = conn.cursor()
     cursor.execute('select createtime,name,telephone,real_score,\
-                   virtual_score from user where role=0')
+                   virtual_score,id from user where role=0')
     data=cursor.fetchall()
     conn.close()
     return data
+
+def all_pre_s():
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('select createtime,name,telephone,QQ,\
+                   email from pre')
+    data=cursor.fetchall()
+    conn.close()
+    return data
+
+def zero_server(user_id):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('update user set virtual_score=0 ,real_score=0 where id=?',\
+                   (user_id,))
+    cursor.execute('delete from re where user_id=?',(user_id,))
+    conn.commit()
+    conn.close()
+
+def get_user_by_id(user_id):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('select name,telephone,QQ,email from user where id=?',\
+                   (user_id,))
+    data=cursor.fetchall()
+    conn.close()
+    return data[0]
+
+def get_userid_by_re(re_id):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('select user_id from re where id=?',(re_id,))
+    data=cursor.fetchall()
+    conn.close()
+    return data[0]
+
+def change_status_server(re_id,user_id,status,s):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('update re set status=? where id=?',(s,re_id))
+    if status==1:
+        cursor.execute('update user set virtual_score=virtual_score-50,\
+                         real_score=real_score+50 where id=?',(user_id,))
+    if status==2:
+        cursor.execute('update user set virtual_score=virtual_score-100,\
+                         real_score=real_score+100 where id=?',(user_id,))
+    conn.commit()
+    conn.close()

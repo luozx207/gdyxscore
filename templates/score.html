@@ -11,7 +11,6 @@
       <td>推荐时间</td>
       <td>被推荐人姓名</td>
       <td>被推荐人电话号码</td>
-      <td>被推荐人邮箱</td>
       <td>状态</td>
     </tr>
     {% for r in res %}
@@ -20,9 +19,30 @@
       <td>{{ r[1] }}</td>
       <td>{{ r[2] }}</td>
       <td>{{ r[3] }}</td>
-      <td>{{ r[4] }}</td>
     </tr>
     {% endfor %}
   </table>
+  <div class=score>被推荐人状态说明</div>
+  <table border='1' cellspacing="0" cellpadding="5">
+    <tr>
+      <td>推荐状态</td>
+      <td>增加实际积分</td>
+      <td>增加推荐积分</td>
+    </tr>
+    <tr>
+      <td>新增</td>
+      <td>0</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <td>入学考试</td>
+      <td>50</td>
+      <td>-50</td>
+    </tr>
+    <tr>
+      <td>缴纳学费</td>
+      <td>100</td>
+      <td>-100</td>
+    </tr>
   {% endif %}
 {% endblock %}

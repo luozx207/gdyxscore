@@ -1,0 +1,31 @@
+{% extends "background.html" %}
+{% block body %}
+<div class=score>姓名：{{ user[0] }}</div>
+<div class=score>电话：{{ user[1] }}</div>
+<div class=score>QQ：{{ user[2] }}</div>
+<div class=score>email：{{ user[3] }}</div>
+<div>———————————————————————</div>
+<div class=score>推荐详情：</div>
+<table border='1' cellspacing="0" cellpadding="5">
+  <tr>
+    <td>推荐时间</td>
+    <td>被推荐人姓名</td>
+    <td>被推荐人电话号码</td>
+    <td>状态</td>
+    <td>操作</td>
+  </tr>
+  {% for d in data %}
+  <tr>
+    <td>{{ d[0] }}</td>
+    <td>{{ d[1] }}</td>
+    <td>{{ d[2] }}</td>
+    <td>{{ d[3] }}</td>
+    {% if d[3]=="新增" %}
+    <td><a href="/background/change_status1/{{ d[4] }}">参加入学考试</a></td>
+    {% elif d[3]=='参加入学考试' %}
+    <td><a href="/background/change_status2/{{ d[4] }}">已缴纳学费</a></td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

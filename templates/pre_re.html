@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>预报名</h1>
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <form action="{{ url_for('pre_re') }}" method=post accept-charset="UTF-8">
+    <dl>
+      <dt>姓名*:
+      <dd><input type=text name=name required>
+      <dt>手机号码*:
+      <dd><input type=text name=telephone required>
+      <dt>QQ:
+      <dd><input type=text name=QQ>
+      <dt>邮箱:
+      <dd><input type=text name=email>
+      <dd><input type=submit value=报名>
+    </dl>
+  </form>
+{% endblock %}

@@ -3,29 +3,28 @@ from flask import Flask, g, flash, redirect, url_for
 from flask import render_template
 from flask import request,session
 from server import login_server,register_server,score_server,recommend_server
-from server import score_detail,auth_server,back_view
-import sqlite3
+from server import score_detail,auth_server,all_user_s, pre_server,all_pre_s
+from server import zero_server
+import background
 
 app=Flask(__name__)
+app.register_blueprint(background.bp, url_prefix='/background/')
 app.config['SECRET_KEY'] = '0104*132*440_lu*ozx=8*52@394&27-ala^rk'
 
 @app.route('/')
 def index():
     return render_template('home.html')
 
-@app.route('/background/')
-def background():
-    if 'user_id' in session:
-        auth=auth_server(session['user_id'])
-        if auth[0]:
-            users=back_view()
-            return render_template('background.html',users=users)
-        else:
-            flash('您没有权限访问此页')
+@app.route('/pre_re/',methods=['POST','GET'])
+def pre_re():
+    if request.method=='POST':
+        data=pre_server(**request.form)
+        flash(data)
+        if data=="预报名成功":
             return redirect(url_for('index'))
-    else:
-        flash('请先登陆')
-        return redirect(url_for('login'))
+        else:
+            return redirect(url_for('pre_re'))
+    return render_template('pre_re.html')
 
 @app.route('/score/')
 def score():
@@ -80,9 +79,9 @@ def login():
             return redirect(url_for('score'))
     return render_template('login.html')
 
-
 @app.route('/logout/')
 def logout():
+    session.pop('auth',None)
     session.pop('user_id',None)
     flash('登出成功')
     return render_template('layout.html')
