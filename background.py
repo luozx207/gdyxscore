@@ -76,11 +76,11 @@ def detail(id):
 def change_status1(id):
     user=get_userid_by_re(id)
     change_status_server(id,user[0],1,"参加入学考试")
-    return redirect(f'background/detail/{user[0]}')
+    return redirect('background/detail/{}'.format(user[0]))
 
 @bp.route('change_status2/<id>')
 @auth_func
 def change_status2(id):
     user=get_userid_by_re(id)
     change_status_server(id,user[0],2,"已缴纳学费")
-    return redirect(f'background/detail/{user[0]}')
+    return redirect('background/detail/{}'.format(user[0]))
