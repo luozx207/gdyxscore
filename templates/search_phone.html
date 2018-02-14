@@ -1,0 +1,38 @@
+{% extends "background.html" %}
+{% block body %}
+<h2>请输入需要查询的手机号码</h2>
+<form action="{{ url_for('background.search_phone') }}" method=post>
+   <input type=text name=phone>
+   <input type=submit value=查询>
+<div>———————————————————————</div>
+<table border='1' cellspacing="0" cellpadding="5">
+  <tr>
+    <td>角色</td>
+    <td>创建时间</td>
+    <td>姓名</td>
+    <td>电话号码</td>
+    <td>操作</td>
+  </tr>
+{% for u in users %}
+<tr>
+  <td>推荐人</td>
+  <td>{{ u[0] }}</td>
+  <td><a href="/background/detail/{{ u[3] }}">{{ u[1] }}</a></td>
+  <td>{{ u[2] }}</td>
+  <td><a href="/background/zero/{{ u[3] }}">积分清零</a></td>
+</tr>
+{% endfor %}
+{% for r in res %}
+<tr>
+  <td>被推荐人</td>
+  <td>{{ r[0] }}</td>
+  <td>{{ r[1] }}</a></td>
+  <td>{{ r[2] }}</td>
+  {% if r[3]=="新增" %}
+  <td><a href="/background/change_status1/{{ r[4] }}">参加入学考试</a></td>
+  {% elif r[3]=='参加入学考试' %}
+  <td><a href="/background/change_status2/{{ r[4] }}">已缴纳学费</a></td>
+  {% endif %}
+</tr>
+{% endfor %}
+{% endblock %}

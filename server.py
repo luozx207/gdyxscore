@@ -126,7 +126,8 @@ def zero_server(user_id):
 def get_user_by_id(user_id):
     conn = sqlite3.connect('test.sqlite')
     cursor = conn.cursor()
-    cursor.execute('select name,telephone,QQ,email from user where id=?',\
+    cursor.execute('select name,telephone,QQ,email,virtual_score,\
+                   real_score from user where id=?',\
                    (user_id,))
     data=cursor.fetchall()
     conn.close()
@@ -152,3 +153,23 @@ def change_status_server(re_id,user_id,status,s):
                          real_score=real_score+100 where id=?',(user_id,))
     conn.commit()
     conn.close()
+
+def search_users_by_phone(phone):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('select createtime,name,telephone,id from user \
+                    where telephone like ?',\
+                   ('{}%'.format(phone),))
+    data=cursor.fetchall()
+    conn.close()
+    return data
+
+def search_res_by_phone(phone):
+    conn = sqlite3.connect('test.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('select createtime,name,telephone,status,id from re \
+                    where telephone like ?',\
+                   ('{}%'.format(phone),))
+    data=cursor.fetchall()
+    conn.close()
+    return data

@@ -6,7 +6,7 @@ from flask import request,session
 from server import login_server
 from server import score_detail,auth_server,all_user_s, pre_server,all_pre_s
 from server import zero_server,get_user_by_id, change_status_server
-from server import get_userid_by_re
+from server import get_userid_by_re,search_users_by_phone,search_res_by_phone
 from functools import wraps
 
 def auth_func(func):
@@ -84,3 +84,13 @@ def change_status2(id):
     user=get_userid_by_re(id)
     change_status_server(id,user[0],2,"已缴纳学费")
     return redirect('background/detail/{}'.format(user[0]))
+
+@bp.route('search_phone',methods=['POST','GET'])
+@auth_func
+def search_phone():
+    if request.method=='POST':
+        phone=request.form['phone']
+        users=search_users_by_phone(phone)
+        res=search_res_by_phone(phone)
+        return render_template('search_phone.html',users=users,res=res)
+    return render_template('search_phone.html')
