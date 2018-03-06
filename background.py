@@ -31,9 +31,7 @@ def background():
         username=request.form['username']
         password=request.form['password']
         data=login_server(username,password)
-        if 'user_id' in session:
-            flash('请勿重复登录')
-        elif type(data)==str:
+        if type(data)==str:
             flash(data)
         else:
             session['user_id']=data[0]
@@ -43,6 +41,9 @@ def background():
                 flash('您没有权限访问后台')
                 return redirect(url_for('index'))
             flash('登陆成功')
+    if 'user_id' in session:
+        flash('您没有权限访问后台')
+        return redirect(url_for('index'))
     return render_template('background.html')
 
 @bp.route('all_user/')
