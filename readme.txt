@@ -1,13 +1,16 @@
-运行环境：python3.6+Flask 0.12.2
-这是广东省邮电职业技术学校的一个积分系统，使用flask模版、sqlite数据库、jinja模版渲染前端
-功能实现得差不多了，但前端还需要改进
+### A point system for Guangdong Telecommunication School
 
-前台部分：
-1、预报名页面，用户可以提交自己的预报名信息，这部分信息存在独立的数据表里
-2、登陆以及注册页面。用户信息存储在user表中，用session记住用户的登陆信息
-3、登陆后，用户可以查看自己的积分和推荐别人入学，推荐成功会增加用户的积分（推荐的人放在re这张表中，用属性user_id与用户关联）
-4、可以用积分兑换奖品
-后台（background.py）部分：
-1、管理员账户与普通用户在同一张表中，但是管理员账户的auth属性值为1，其他用户为0
-2、用装饰器写了一个验证用户权限的函数，装饰后台的每一个页面
-3、后台可以查看所有用户以及推荐的人，并可以改变被推荐人的入学状态、清零用户积分等，还可以按手机号码查找用户或者被推荐人
+Running environment: python3.6+Flask 0.12.2
+This is a  point system for Guangdong Telecommunication School, using flask template, sqlite database, jinja template rendering front-end
+The function is almost achieved, but the front-end still needs to be improved
+
+Frontend part:
+1, pre-registration page, users can submit their pre-registration information, this part of the information exists in a separate data table
+2、Login as well as registration page. The user information is stored in the user table, and the session is used to remember the user's login information.
+3、After logging in , the user can check his points and recommend others to enroll in the school , the successful recommendation will increase the user's points (the recommended person is placed in the table re , with the attribute user_id associated with the user )
+4, you can use the points to exchange prizes
+
+background (background.py) part:
+1, the administrator account and ordinary users in the same table, but the administrator account auth attribute value of 1, other users for 0
+2, with a decorator to write a function to verify the user's rights, decorating each page of the background
+3, the background can view all the users and recommended people, and can change the enrolment status of the recommended people , zero user points , etc., but also by mobile phone number to find the user or recommended people
